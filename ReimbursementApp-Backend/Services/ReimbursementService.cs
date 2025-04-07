@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using ReimbursementApp_Backend.Forms;
+using ReimbursementApp_Backend.DTOs;
 using ReimbursementApp_Backend.Models;
 using ReimbursementApp_Backend.Data;
 using ReimbursementApp_Backend.Services.Interfaces;
@@ -51,17 +51,24 @@ public class ReimbursementService : IReimbursementService
         return record.Id;
     }
 
-    public async Task<List<ReimbursementRecord>> GetAllAsync(int page = 1, int pageSize = 10)
+    public async Task<Paged<ReimbursementRecord>> GetAllAsync(ReimbursementRecordsQueryRequestDto dto)
     {
-        return await _context.ReimbursementRecords
-            .OrderByDescending(r => r.CreatedAt)
-            .Skip((page - 1) * pageSize)
-            .Take(pageSize)
-            .ToListAsync();
-    }
+        // implemented basic pagination
+        int totalCount = _context.ReimbursementRecords.Count();
 
-    public async Task<ReimbursementRecord?> GetByIdAsync(int id)
-    {
-        throw new NotImplementedException();
+        IEnumerable<ReimbursementRecord> reimbursementRecords = await _context.ReimbursementRecords
+            .OrderByDescending(r => r.CreatedAt)
+            .Skip((dto.page - 1) * dto.pageSize)
+            .Take(dto.pageSize)
+            .ToListAsync();
+        
+        // use Paged class to encapsulate multiple model objects
+        return new Paged<ReimbursementRecord>
+        {
+            Data = reimbursementRecords,
+            Page = dto.page,
+            PageSize = dto.pageSize,
+            TotalCount = totalCount
+        };
     }
 }

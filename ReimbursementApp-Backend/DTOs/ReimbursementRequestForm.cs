@@ -1,8 +1,10 @@
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 
-namespace ReimbursementApp_Backend.Forms;
+namespace ReimbursementApp_Backend.DTOs;
 
+
+// This is a Form instead of a DTO because we want to support IFormFile in Swagger
 public class ReimbursementRequestForm 
 {
     [Required(ErrorMessage = "Please input your name.")]

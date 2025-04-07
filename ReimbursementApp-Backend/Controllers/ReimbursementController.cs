@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
-using ReimbursementApp_Backend.Forms;
+using ReimbursementApp_Backend.DTOs;
+using ReimbursementApp_Backend.Models;
 using ReimbursementApp_Backend.Services.Interfaces;
 
 namespace ReimbursementApp_Backend.Controllers;
@@ -18,9 +19,16 @@ public class ReimbursementController : ControllerBase
     }
 
     [HttpPost(Name = "PostReimbursement")]
-    public async Task<ActionResult<int>> Post([FromForm] ReimbursementRequestForm form)
+    public async Task<ActionResult<ReimbursementRequestResponseDto>> Post([FromForm] ReimbursementRequestForm form)
     {
         int id = await _reimbursementService.CreateReimbursementAsync(form);
-        return CreatedAtAction(nameof(Post), new { id }, new { id });
+        return new ReimbursementRequestResponseDto() { ReimbursementId = id };
+    }
+
+    [HttpGet(Name = "GetMultipleReimbursementRecords")]
+    public async Task<ActionResult<ReimbursementRecordsQueryResponseDto>> Get([FromQuery] ReimbursementRecordsQueryRequestDto dto)
+    {
+        Paged<ReimbursementRecord> pagedReimbursementRecords = await _reimbursementService.GetAllAsync(dto);
+        return new ReimbursementRecordsQueryResponseDto(pagedReimbursementRecords);
     }
 }
