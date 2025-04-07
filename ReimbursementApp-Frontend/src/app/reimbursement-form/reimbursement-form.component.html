@@ -1,0 +1,79 @@
+<div class="min-vh-100 d-flex flex-column bg-light">
+  <!-- Header -->
+  <header class="bg-black py-3 px-4 d-flex justify-content-between align-items-center">
+    <h1 class="text-warning m-0 fs-3">IOWA</h1>
+    <span class="text-white d-none d-md-inline">Reimbursement Request System</span>
+  </header>
+
+  <!-- Form Section -->
+  <main class="flex-grow-1 d-flex justify-content-center align-items-start py-5 px-2">
+    <div class="bg-body-secondary p-4 rounded-4 shadow-sm w-100" style="max-width: 600px">
+      <h3 class="fw-bold">Welcome</h3>
+      <p class="fw-semibold text-secondary mb-1">Reimbursement Request Form</p>
+      <p class="text-muted small mb-4">
+        Please fill in the details below to submit your expense reimbursement request.<br>
+        Please make sure to attach the correct receipt!
+      </p>
+
+      <form (ngSubmit)="onSubmit()" [formGroup]="form" class="d-grid gap-3">
+        <div>
+          <label for="name" class="form-label">Name</label>
+          <input id="name" formControlName="name" type="text" class="form-control" placeholder="Your name">
+          <div class="text-danger small" *ngIf="form.get('name')?.invalid && form.get('name')?.touched">
+            Name is required.
+          </div>
+        </div>
+
+        <div>
+          <label for="id" class="form-label">UIOWA ID</label>
+          <input id="id" formControlName="iowaId" type="text" class="form-control" placeholder="12345678">
+          <div class="text-danger small" *ngIf="form.get('iowaId')?.invalid && form.get('iowaId')?.touched">
+            UIOWA ID is required.
+          </div>
+        </div>
+
+        <div>
+          <label for="date" class="form-label">Date</label>
+          <input id="date" formControlName="date" type="date" class="form-control">
+          <div class="text-danger small" *ngIf="form.get('date')?.invalid && form.get('date')?.touched">
+            Please select a valid date.
+          </div>
+        </div>
+
+        <div>
+          <label for="amount" class="form-label">Amount</label>
+          <input id="amount" formControlName="amount" type="number" class="form-control" placeholder="$ 0.00">
+          <div class="text-danger small" *ngIf="form.get('amount')?.invalid && form.get('amount')?.touched">
+            Amount is required.
+          </div>
+        </div>
+
+        <div>
+          <label for="receipt" class="form-label">Receipt</label>
+          <input id="receipt" type="file" (change)="onFileChange($event)" class="form-control">
+          <div class="text-danger small" *ngIf="form.get('receipt')?.invalid && form.get('receipt')?.touched">
+            Receipt is required.
+          </div>
+        </div>
+
+        <div>
+          <label for="description" class="form-label">Description</label>
+          <textarea id="description" formControlName="description" rows="3" class="form-control" placeholder="Description..."></textarea>
+          <div class="text-danger small" *ngIf="form.get('description')?.invalid && form.get('description')?.touched">
+            Description is required.
+          </div>
+        </div>
+
+        <div class="d-flex gap-3 justify-content-between flex-column flex-md-row">
+          <button type="submit" class="btn btn-warning text-black fw-semibold px-4">Submit</button>
+          <button type="button" class="btn btn-dark fw-semibold px-4" (click)="form.reset()">Clear</button>
+        </div>
+      </form>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="text-center text-muted py-3 small">
+    <p class="mb-0">© 2025 Copyright UIOWA. All rights reserved</p>
+  </footer>
+</div>
