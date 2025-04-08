@@ -1,0 +1,98 @@
+<div class="min-vh-100 d-flex flex-column bg-light">
+  <!-- loding mask -->
+  <app-loading-mask 
+    [visible]="loading"
+    title="Loading"
+    message="Please wait, loading reimbursement records..."
+  ></app-loading-mask>
+
+  <!-- Header -->
+  <app-header></app-header>
+
+  <!-- List Section -->
+  <main class="flex-grow-1 d-flex justify-content-center align-items-start py-5 px-2">
+    <div class="bg-body-secondary p-4 rounded-4 shadow-sm w-100" style="max-width: 900px">
+      <h3 class="fw-bold text-center mb-4">Reimbursement Requests</h3>
+
+      <div class="table-responsive">
+        <table class="table table-bordered table-hover align-middle bg-white">
+          <thead class="table-light">
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col">Name</th>
+              <th scope="col">UIOWA ID</th>
+              <th scope="col">Date</th>
+              <th scope="col">Amount</th>
+              <th scope="col">Description</th>
+              <th scope="col">Receipt</th>
+              <th scope="col">Created On</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let record of data">
+              <td>
+                <span [title]="record.id">
+                  {{ record.id }}
+                </span>
+              </td>
+              <td>
+                <span [title]="record.requesterName">
+                  {{ record.requesterName.length > 30 ? (record.requesterName | slice:0:30) + '...' : record.requesterName }}
+                </span>
+              </td>
+              <td>
+                <span [title]="record.requesterId">
+                  {{ record.requesterId }}
+                </span>
+              </td>
+              <td>
+                <span [title]="record.purchaseDate">
+                  {{ record.purchaseDate | date:'shortDate' }}
+                </span>
+              </td>
+              <td>
+                <span [title]="record.amount.toFixed(2)">
+                  ${{ record.amount.toFixed(2) }}
+                </span>
+              </td>
+              <td>
+                <span [title]="record.description">
+                  {{ record.description.length > 60 ? (record.description | slice:0:60) + '...' : record.description }}
+                </span>
+              </td>
+              <td>
+                <a [href]="record.receiptUrl" target="_blank" class="btn btn-sm btn-outline-primary">View</a>
+              </td>
+              <td>
+                <span [title]="record.createdAt">
+                  {{ record.createdAt | date: 'yyyy-MM-dd HH:mm:ss' }}
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Pagination -->
+      <nav *ngIf="totalPages >= 1" class="mt-4 d-flex justify-content-center">
+        <ul class="pagination">
+          <li class="page-item" [class.disabled]="currentPage === 1">
+            <button class="page-link" (click)="goToPage(currentPage - 1)">&laquo;</button>
+          </li>
+
+          <li *ngFor="let page of [].constructor(totalPages); let i = index"
+              class="page-item" [class.active]="currentPage === (i + 1)">
+            <button class="page-link" (click)="goToPage(i + 1)">{{ i + 1 }}</button>
+          </li>
+
+          <li class="page-item" [class.disabled]="currentPage === totalPages">
+            <button class="page-link" (click)="goToPage(currentPage + 1)">&raquo;</button>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <app-footer [routerLink]="'/'"></app-footer>
+</div>

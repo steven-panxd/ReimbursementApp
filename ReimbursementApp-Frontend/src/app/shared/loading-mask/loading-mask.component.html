@@ -1,0 +1,13 @@
+<div
+  *ngIf="visible"
+  class="position-fixed top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center bg-dark bg-opacity-75"
+  style="z-index: 999"
+>
+  <div class="text-center text-white p-4 bg-black bg-opacity-50 rounded-4 shadow-lg">
+    <div class="spinner-border text-warning mb-3" role="status" style="width: 3rem; height: 3rem;">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <h5 class="fw-bold">{{ title }}</h5>
+    <p class="small text-light">{{ message }}</p>
+  </div>
+</div>
