@@ -10,17 +10,20 @@ public class ReimbursementService : IReimbursementService
 {
     private readonly AppDbContext _context;
     private readonly IWebHostEnvironment _env;
+    private readonly IConfiguration _config;
 
-    public ReimbursementService(AppDbContext context, IWebHostEnvironment env)
+    public ReimbursementService(AppDbContext context, IWebHostEnvironment env, IConfiguration config)
     {
         _context = context;
         _env = env;
+        _config = config;
     }
 
     public async Task<int> CreateReimbursementAsync(ReimbursementRequestForm form)
     {
         // save uploaded receipt proof file
-        string uploadsFolder = Path.Combine(_env.WebRootPath ?? "wwwroot", "receipts");
+        string receiptUploadBasePath = _config["ReceiptsUploadBasePath"] ?? "receipts";
+        string uploadsFolder = Path.Combine(_env.WebRootPath ?? "wwwroot", receiptUploadBasePath);
         Directory.CreateDirectory(uploadsFolder);
 
         // create unique file name to avoid collision
@@ -54,13 +57,19 @@ public class ReimbursementService : IReimbursementService
     public async Task<Paged<ReimbursementRecord>> GetAllAsync(ReimbursementRecordsQueryRequestDto dto)
     {
         // implemented basic pagination
-        int totalCount = _context.ReimbursementRecords.Count();
+        int totalCount = await _context.ReimbursementRecords.CountAsync();
 
         IEnumerable<ReimbursementRecord> reimbursementRecords = await _context.ReimbursementRecords
             .OrderByDescending(r => r.CreatedAt)
             .Skip((dto.page - 1) * dto.pageSize)
             .Take(dto.pageSize)
             .ToListAsync();
+
+        // concatenate receiptUploadBasePath with receipt file name to create correct url
+        string receiptUploadBasePath = _config["ReceiptsUploadBasePath"] ?? "receipts";
+        foreach ( var reimbursementRecord in reimbursementRecords ) {
+            reimbursementRecord.ReceiptFilePath = "/" + receiptUploadBasePath + "/" + reimbursementRecord.ReceiptFilePath;
+        }
         
         // use Paged class to encapsulate multiple model objects
         return new Paged<ReimbursementRecord>

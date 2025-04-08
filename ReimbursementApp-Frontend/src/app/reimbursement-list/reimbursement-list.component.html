@@ -29,6 +29,14 @@
             </tr>
           </thead>
           <tbody>
+            <!-- if no data -->
+            <tr *ngIf="data.length === 0 && !loading">
+              <td colspan="8" class="text-center text-muted">
+                No Data Available
+              </td>
+            </tr>
+            
+            <!-- else, display data -->
             <tr *ngFor="let record of data">
               <td>
                 <span [title]="record.id">

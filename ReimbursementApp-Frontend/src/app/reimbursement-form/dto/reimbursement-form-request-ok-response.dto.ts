@@ -1,3 +1,3 @@
 export interface ReimbursementFormRequestOkResponseDTO {
-    ReimbursementId: Number;
+    reimbursementId: Number;
 }

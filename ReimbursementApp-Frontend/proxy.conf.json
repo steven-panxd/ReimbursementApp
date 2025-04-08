@@ -1,12 +1,12 @@
 {
     "/api": {
-        "target": "http://localhost:5238",
+        "target": "http://localhost:12345",
         "secure": false,
         "changeOrigin": true,
         "logLevel": "debug"
     },
     "/receipts": {
-        "target": "http://localhost:5238",
+        "target": "http://localhost:12345",
         "secure": false,
         "changeOrigin": true,
         "logLevel": "debug"

@@ -122,7 +122,7 @@ export class ReimbursementFormComponent {
       finalize(() => this.loading = false)
     ).subscribe({
       next: (res) => {
-        alert(`Your reimbursement request has been submitted, for your information, your request id is ${ res.ReimbursementId }.`);
+        alert(`Your reimbursement request has been submitted, for your information, your request id is ${ res.reimbursementId }.`);
         this.onClear();
       },
       error: (err) => {

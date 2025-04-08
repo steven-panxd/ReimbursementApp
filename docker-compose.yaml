@@ -1,0 +1,36 @@
+services:
+  # postgres database 
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "${POSTGRES_PORT}:${POSTGRES_PORT}"
+
+  # backend servers
+  backend:
+    build:
+      context: ./ReimbursementApp-backend/
+    environment:
+      - ASPNETCORE_URLS=http://+:${BACKEND_PORT}
+      - ConnectionStrings__DefaultConnection=Host=postgres;Port=${POSTGRES_PORT};Database=${POSTGRES_DB};Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD}
+    depends_on:
+      - postgres
+    ports:
+      - "${BACKEND_PORT}:${BACKEND_PORT}"
+
+  # frontend server
+  frontend:
+    build:
+      context: ./ReimbursementApp-frontend/
+    ports:
+      - "${FRONTEND_PORT}:${FRONTEND_PORT}"
+    depends_on:
+      - backend
+
+volumes:
+  pgdata:
