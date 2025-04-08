@@ -1,3 +1,4 @@
+using System.Runtime.InteropServices;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
@@ -47,11 +48,22 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-// source: https://github.com/dotnet/aspnetcore/issues/54216
-app.UseStaticFiles(new StaticFileOptions()
+// before UseStaticFiles, we need to make sure the directory "./wwwroot/receipts" exist, which stores uploaded receipt files
+var receiptsDir = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "receipts");
+if (!Directory.Exists(receiptsDir))
 {
-    FileProvider = new PhysicalFileProvider($@"{AppDomain.CurrentDomain.BaseDirectory}/wwwroot")
-});
+    Directory.CreateDirectory(receiptsDir);
+}
+
+// fix static file access issue, source: https://github.com/dotnet/aspnetcore/issues/54216
+if (app.Environment.IsDevelopment()) {
+    app.UseStaticFiles();
+} else {
+    app.UseStaticFiles(new StaticFileOptions()
+    {
+        FileProvider = new PhysicalFileProvider($@"{AppDomain.CurrentDomain.BaseDirectory}/wwwroot")
+    });
+}
 
 app.MapControllers();
 
