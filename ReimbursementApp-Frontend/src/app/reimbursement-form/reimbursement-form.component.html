@@ -1,9 +1,9 @@
 <div class="min-vh-100 d-flex flex-column bg-light">
+  <!-- Loading Mask -->
+  <app-loading-mask [visible]="loading"></app-loading-mask>
+
   <!-- Header -->
-  <header class="bg-black py-3 px-4 d-flex justify-content-between align-items-center">
-    <h1 class="text-warning m-0 fs-3">IOWA</h1>
-    <span class="text-white d-none d-md-inline">Reimbursement Request System</span>
-  </header>
+  <app-header></app-header>
 
   <!-- Form Section -->
   <main class="flex-grow-1 d-flex justify-content-center align-items-start py-5 px-2">
@@ -19,61 +19,69 @@
         <div>
           <label for="name" class="form-label">Name</label>
           <input id="name" formControlName="name" type="text" class="form-control" placeholder="Your name">
-          <div class="text-danger small" *ngIf="form.get('name')?.invalid && form.get('name')?.touched">
-            Name is required.
+          <div class="text-danger small" *ngIf="getError('name')">
+            {{ getError('name') }}
           </div>
         </div>
 
         <div>
           <label for="id" class="form-label">UIOWA ID</label>
           <input id="id" formControlName="iowaId" type="text" class="form-control" placeholder="12345678">
-          <div class="text-danger small" *ngIf="form.get('iowaId')?.invalid && form.get('iowaId')?.touched">
-            UIOWA ID is required.
+          <div class="text-danger small" *ngIf="getError('iowaId')">
+            {{ getError('iowaId') }}
           </div>
         </div>
 
         <div>
-          <label for="date" class="form-label">Date</label>
+          <label for="date" class="form-label">Date of Purchase</label>
           <input id="date" formControlName="date" type="date" class="form-control">
-          <div class="text-danger small" *ngIf="form.get('date')?.invalid && form.get('date')?.touched">
-            Please select a valid date.
+          <div class="text-danger small" *ngIf="getError('date')">
+            {{ getError('date') }}
           </div>
         </div>
 
         <div>
           <label for="amount" class="form-label">Amount</label>
-          <input id="amount" formControlName="amount" type="number" class="form-control" placeholder="$ 0.00">
-          <div class="text-danger small" *ngIf="form.get('amount')?.invalid && form.get('amount')?.touched">
-            Amount is required.
+          <div class="input-group">
+            <span class="input-group-text">$</span>
+            <input
+              id="amount"
+              formControlName="amount"
+              type="number"
+              class="form-control"
+              placeholder="0.01"
+              (blur)="onAmountBlured($event)"
+            >
+          </div>
+          <div class="text-danger small" *ngIf="getError('amount')">
+            {{ getError('amount') }}
           </div>
         </div>
 
         <div>
           <label for="receipt" class="form-label">Receipt</label>
-          <input id="receipt" type="file" (change)="onFileChange($event)" class="form-control">
-          <div class="text-danger small" *ngIf="form.get('receipt')?.invalid && form.get('receipt')?.touched">
-            Receipt is required.
+          <input id="receipt" type="file" (change)="onFileChange($event)" class="form-control" #receipt>
+          <div class="text-danger small" *ngIf="getError('receipt')">
+            {{ getError('receipt') }}
           </div>
         </div>
 
         <div>
           <label for="description" class="form-label">Description</label>
           <textarea id="description" formControlName="description" rows="3" class="form-control" placeholder="Description..."></textarea>
-          <div class="text-danger small" *ngIf="form.get('description')?.invalid && form.get('description')?.touched">
-            Description is required.
+          <div class="text-danger small" *ngIf="getError('description')">
+            {{ getError('description') }}
           </div>
         </div>
 
         <div class="d-flex gap-3 justify-content-between flex-column flex-md-row">
           <button type="submit" class="btn btn-warning text-black fw-semibold px-4">Submit</button>
-          <button type="button" class="btn btn-dark fw-semibold px-4" (click)="form.reset()">Clear</button>
+          <button type="button" class="btn btn-dark fw-semibold px-4" (click)="onClear()">Clear</button>
         </div>
       </form>
     </div>
   </main>
 
   <!-- Footer -->
-  <footer class="text-center text-muted py-3 small">
-    <p class="mb-0">© 2025 Copyright UIOWA. All rights reserved</p>
-  </footer>
+  <app-footer [routerLink]="'/list'"></app-footer>
 </div>

@@ -1,56 +1,72 @@
 <div class="min-vh-100 d-flex flex-column bg-light">
+  <!-- loding mask -->
+  <app-loading-mask 
+    [visible]="loading"
+    title="Loading"
+    message="Please wait, loading reimbursement records..."
+  ></app-loading-mask>
+
   <!-- Header -->
-  <header class="bg-black py-3 px-4 d-flex justify-content-between align-items-center">
-    <h1 class="text-warning m-0 fs-3">IOWA</h1>
-    <span class="text-white d-none d-md-inline">Reimbursement Management</span>
-  </header>
+  <app-header></app-header>
 
   <!-- List Section -->
   <main class="flex-grow-1 d-flex justify-content-center align-items-start py-5 px-2">
     <div class="bg-body-secondary p-4 rounded-4 shadow-sm w-100" style="max-width: 900px">
-      <h3 class="fw-bold text-center mb-4">Submitted Requests</h3>
+      <h3 class="fw-bold text-center mb-4">Reimbursement Requests</h3>
 
       <div class="table-responsive">
         <table class="table table-bordered table-hover align-middle bg-white">
           <thead class="table-light">
             <tr>
+              <th scope="col">ID</th>
               <th scope="col">Name</th>
-              <th scope="col">IOWA ID</th>
+              <th scope="col">UIOWA ID</th>
               <th scope="col">Date</th>
               <th scope="col">Amount</th>
               <th scope="col">Description</th>
               <th scope="col">Receipt</th>
+              <th scope="col">Created On</th>
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let request of reimbursements">
+            <tr *ngFor="let record of data">
               <td>
-                <span [title]="request.name">
-                  {{ request.name.length > 30 ? (request.name | slice:0:30) + '...' : request.name }}
+                <span [title]="record.id">
+                  {{ record.id }}
                 </span>
               </td>
               <td>
-                <span [title]="request.iowaId">
-                  {{ request.iowaId.length > 30 ? (request.iowaId | slice:0:30) + '...' : request.iowaId }}
+                <span [title]="record.requesterName">
+                  {{ record.requesterName.length > 30 ? (record.requesterName | slice:0:30) + '...' : record.requesterName }}
                 </span>
               </td>
               <td>
-                <span [title]="request.date">
-                  {{ request.date | date:'shortDate' }}
+                <span [title]="record.requesterId">
+                  {{ record.requesterId }}
                 </span>
               </td>
               <td>
-                <span [title]="request.amount.toFixed(2)">
-                  ${{ request.amount.toFixed(2) }}
+                <span [title]="record.purchaseDate">
+                  {{ record.purchaseDate | date:'shortDate' }}
                 </span>
               </td>
               <td>
-                <span [title]="request.description">
-                  {{ request.description.length > 60 ? (request.description | slice:0:60) + '...' : request.description }}
+                <span [title]="record.amount.toFixed(2)">
+                  ${{ record.amount.toFixed(2) }}
                 </span>
               </td>
               <td>
-                <a [href]="request.receiptUrl" target="_blank" class="btn btn-sm btn-outline-primary">View</a>
+                <span [title]="record.description">
+                  {{ record.description.length > 60 ? (record.description | slice:0:60) + '...' : record.description }}
+                </span>
+              </td>
+              <td>
+                <a [href]="record.receiptUrl" target="_blank" class="btn btn-sm btn-outline-primary">View</a>
+              </td>
+              <td>
+                <span [title]="record.createdAt">
+                  {{ record.createdAt | date: 'yyyy-MM-dd HH:mm:ss' }}
+                </span>
               </td>
             </tr>
           </tbody>
@@ -58,7 +74,7 @@
       </div>
 
       <!-- Pagination -->
-      <nav *ngIf="totalPages > 1" class="mt-4 d-flex justify-content-center">
+      <nav *ngIf="totalPages >= 1" class="mt-4 d-flex justify-content-center">
         <ul class="pagination">
           <li class="page-item" [class.disabled]="currentPage === 1">
             <button class="page-link" (click)="goToPage(currentPage - 1)">&laquo;</button>
@@ -78,7 +94,5 @@
   </main>
 
   <!-- Footer -->
-  <footer class="text-center text-muted py-3 small">
-    <p class="mb-0">© 2025 Copyright UIOWA. All rights reserved</p>
-  </footer>
+  <app-footer [routerLink]="'/'"></app-footer>
 </div>
