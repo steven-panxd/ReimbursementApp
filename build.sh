@@ -27,7 +27,7 @@ if ! command -v docker-compose &> /dev/null; then
 fi
 
 echo -e "${BLUE}=== Building Docker images ===${NC}"
-docker compose build
+docker compose build --no-cache
 
 echo -e "${GREEN}=== Build completed successfully ===${NC}"
 

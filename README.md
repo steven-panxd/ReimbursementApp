@@ -3,6 +3,16 @@
 A full-stack web application for submitting and managing reimbursement receipts.  
 Built with .NET Core 8 (Web API) for the backend and Angular for the frontend. PostgreSQL is used as the database.
 
+<p align="center">
+  <img src="./screenshot1.png" alt="Form Page" width="500"/>
+</p>
+<p align="center">Form Page (Default Page)</p>
+
+<p align="center">
+  <img src="./screenshot2.png" alt="List Page" width="500"/>
+</p>
+<p align="center">List Page</p>
+
 ---
 
 ## Online Demo
