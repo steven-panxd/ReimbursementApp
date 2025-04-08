@@ -14,7 +14,7 @@ services:
   # backend servers
   backend:
     build:
-      context: ./ReimbursementApp-backend/
+      context: ./ReimbursementApp-Backend/
     environment:
       - ASPNETCORE_URLS=http://+:${BACKEND_PORT}
       - ConnectionStrings__DefaultConnection=Host=postgres;Port=${POSTGRES_PORT};Database=${POSTGRES_DB};Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD}
@@ -26,7 +26,7 @@ services:
   # frontend server
   frontend:
     build:
-      context: ./ReimbursementApp-frontend/
+      context: ./ReimbursementApp-Frontend/
     ports:
       - "${FRONTEND_PORT}:${FRONTEND_PORT}"
     depends_on:
