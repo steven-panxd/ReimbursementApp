@@ -17,7 +17,7 @@ public class ReimbursementRequestForm
     
     [Required(ErrorMessage = "Please input the date.")]
     [DataType(DataType.Date, ErrorMessage = "Please input a valid date.")]
-    [NotInFuture(ErrorMessage = "In valid date, your date is in the future.")]
+    [NotInFuture(ErrorMessage = "Invalid date, your date is in the future.")]
     public DateOnly PurchaseDate { get; set; }
     
     [Required(ErrorMessage = "Please input the amount.")]
