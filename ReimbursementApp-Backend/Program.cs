@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 using ReimbursementApp_Backend.Data;
 using ReimbursementApp_Backend.Services;
 using ReimbursementApp_Backend.Services.Interfaces;
@@ -46,7 +47,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseStaticFiles();
+// source: https://github.com/dotnet/aspnetcore/issues/54216
+app.UseStaticFiles(new StaticFileOptions()
+{
+    FileProvider = new PhysicalFileProvider($@"{AppDomain.CurrentDomain.BaseDirectory}/wwwroot")
+});
 
 app.MapControllers();
 
