@@ -15,6 +15,3 @@ docker compose up -d
 echo -e "${GREEN}=== All services are up ===${NC}"
 echo -e "${BLUE}Container status:${NC}"
 docker compose ps
-
-docker compose ps -q > .running-containers.txt
-echo -e "${YELLOW}Saved running container IDs to .running-containers.txt${NC}"

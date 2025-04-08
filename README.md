@@ -9,6 +9,7 @@ Built with .NET Core 8 (Web API) for the backend and Angular for the frontend. P
 
 If you'd like to preview the application without setting it up locally, you can try the live demo hosted on a Google Cloud Platform instance.  
 The entire application has been containerized with Docker and deployed for demonstration purposes:
+
 **Demo URL:** [https://reimbursement-app.xuedo.ng](https://reimbursement-app.xuedo.ng)
 
 ---
@@ -115,6 +116,7 @@ dotnet run
 ```
 
 The backend will start on: http://localhost:12345
+
 You can access the Swagger page at: http://localhost:12345/swagger/index.html
 
 #### 4. Run the Frontend
