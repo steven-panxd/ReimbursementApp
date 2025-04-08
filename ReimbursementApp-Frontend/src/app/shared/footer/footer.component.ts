@@ -10,4 +10,5 @@ import { RouterModule } from '@angular/router';
 })
 export class FooterComponent { 
   @Input() routerLink: string = '/';
+  @Input() pageName: string = "Home";
 }
